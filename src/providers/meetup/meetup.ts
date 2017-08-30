@@ -34,6 +34,7 @@ export class MeetupProvider {
 
   private fetchMeetupMembers(): Observable<MeetupRSVP[]> {
     const apiUrl = `api/rsvps?event_id=${this.config.eventId}&key=${this.config.apiKey}&rsvp=yes&sign=true`;
+    const alternateAvatarUrl = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
 
     return this.http.get(apiUrl)
                .map(res => res.json()
@@ -42,7 +43,7 @@ export class MeetupProvider {
                                   {
                                     id: result.member.member_id,
                                     name: result.member.name,
-                                    photoUrl: result.member_photo && result.member_photo.photo_link
+                                    photoUrl: result.member_photo ? result.member_photo.photo_link : alternateAvatarUrl
                                   } as MeetupRSVP
                                 )
                               )

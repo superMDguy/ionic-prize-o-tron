@@ -10,9 +10,12 @@
   </h2>
 
   <ion-list>
-    <div ion-item
-         *ngFor="let rsvp of (meetupRsvps$ | async)">
+    <ion-item *ngFor="let rsvp of (meetupRsvps$ | async)">
+      <ion-avatar *ngIf="rsvp.photoUrl"
+                  item-start>
+        <img [src]="rsvp.photoUrl">
+      </ion-avatar>
       {{ rsvp.name }}
-    </div>
+    </ion-item>
   </ion-list>
 </ion-content>

@@ -1,6 +1,9 @@
 import { Injectable } from "@angular/core";
 import { Http } from "@angular/http";
+import "rxjs/add/operator/do";
 import "rxjs/add/operator/map";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { Observable } from "rxjs/Observable";
 
 /*
   Generated class for the MeetupProvider provider.
@@ -15,19 +18,41 @@ export class MeetupProvider {
     eventId: ""
   };
 
+  public meetupRsvps$: BehaviorSubject<MeetupRSVP[]> = new BehaviorSubject(null);
+
   constructor(public http: Http) {
   }
 
-  public updateConfig(newConfig) {
+  public getConfig() {
+    return this.config;
+  }
+
+  public updateConfig(newConfig): Observable<MeetupRSVP[]> {
     this.config = newConfig;
     return this.fetchMeetupMembers();
   }
 
-  private fetchMeetupMembers() {
+  private fetchMeetupMembers(): Observable<MeetupRSVP[]> {
     const apiUrl = `api/rsvps?event_id=${this.config.eventId}&key=${this.config.apiKey}&rsvp=yes&sign=true`;
 
-    this.http.get(apiUrl)
-        .map(res => res.json().results)
-        .subscribe(console.log);
+    return this.http.get(apiUrl)
+               .map(res => res.json()
+                              .results
+                              .map(result => (
+                                  {
+                                    id: result.member.member_id,
+                                    name: result.member.name,
+                                    photoUrl: result.member_photo && result.member_photo.photo_link
+                                  } as MeetupRSVP
+                                )
+                              )
+               )
+               .do((rsvps: MeetupRSVP[]) => this.meetupRsvps$.next(rsvps));
   }
+}
+
+export interface MeetupRSVP {
+  id: number,
+  name: string,
+  photoUrl?: string,
 }

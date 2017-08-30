@@ -13,12 +13,11 @@ import { Observable } from "rxjs/Observable";
 */
 @Injectable()
 export class MeetupProvider {
+  public meetupRsvps$: BehaviorSubject<MeetupRSVP[]> = new BehaviorSubject(null);
   private config = {
     apiKey: "",
     eventId: ""
   };
-
-  public meetupRsvps$: BehaviorSubject<MeetupRSVP[]> = new BehaviorSubject(null);
 
   constructor(public http: Http) {
   }
@@ -43,6 +42,7 @@ export class MeetupProvider {
                                   {
                                     id: result.member.member_id,
                                     name: result.member.name,
+                                    included: true,
                                     photoUrl: result.member_photo ? result.member_photo.photo_link : alternateAvatarUrl
                                   } as MeetupRSVP
                                 )
@@ -53,7 +53,8 @@ export class MeetupProvider {
 }
 
 export interface MeetupRSVP {
-  id: number,
-  name: string,
-  photoUrl?: string,
+  id: number;
+  name: string;
+  included: boolean;
+  photoUrl: string;
 }

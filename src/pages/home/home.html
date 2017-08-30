@@ -10,15 +10,29 @@
       Users who RSVPed
     </ion-list-header>
 
-    <ion-item *ngFor="let rsvp of meetupRsvps">
-      <ion-avatar *ngIf="rsvp.photoUrl"
-                  item-start>
-        <img [src]="rsvp.photoUrl">
-      </ion-avatar>
+    <ng-container *ngIf="meetupRsvps?.length; else noRsvps">
+      <ion-item *ngFor="let rsvp of meetupRsvps"
+                [class.excluded]="!rsvp.included">
+        <ion-avatar *ngIf="rsvp.photoUrl"
+                    item-start>
+          <img [src]="rsvp.photoUrl">
+        </ion-avatar>
 
-      <ion-label>
-        {{ rsvp.name }}
-      </ion-label>
-    </ion-item>
+        <ion-label>
+          {{ rsvp.name }}
+        </ion-label>
+
+        <ion-checkbox [(ngModel)]="rsvp.included"
+                      item-end>
+        </ion-checkbox>
+
+      </ion-item>
+    </ng-container>
+
+    <ng-template #noRsvps>
+      <p>There are currently no RSVPed users.</p>
+      <p>Try changing the configuration in the settings tab.</p>
+    </ng-template>
+
   </ion-list>
 </ion-content>

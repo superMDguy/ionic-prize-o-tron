@@ -1,3 +1,11 @@
 page-home {
+  .excluded {
+    img {
+      filter: grayscale(100%);
+    }
 
+    ion-label {
+      color: #999;
+    }
+  }
 }

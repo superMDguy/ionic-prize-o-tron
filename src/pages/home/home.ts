@@ -26,7 +26,7 @@ export class HomePage implements OnInit, OnDestroy {
   public updatePotentialWinners() {
     if (!this.potentialWinners) return;
 
-    this.potentialWinners = this.potentialWinners.filter(potentialWinner => potentialWinner.included);
+    this.potentialWinners = this.meetupRsvps.filter(potentialWinner => potentialWinner.included);
   }
 
   public selectWinner() {

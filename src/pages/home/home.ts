@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { NavController } from "ionic-angular";
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { MeetupProvider, MeetupRSVP } from "../../providers/meetup/meetup";
 
 @Component({
@@ -8,14 +7,18 @@ import { MeetupProvider, MeetupRSVP } from "../../providers/meetup/meetup";
   templateUrl: "home.html"
 })
 export class HomePage implements OnInit {
-  public meetupRsvps$: BehaviorSubject<MeetupRSVP[]>;
+  public meetupRsvps: MeetupRSVP[];
 
   constructor(public navCtrl: NavController,
               private meetupProvider: MeetupProvider) {
   }
 
   ngOnInit() {
-    this.meetupRsvps$ = this.meetupProvider.meetupRsvps$;
+    this.meetupProvider.meetupRsvps$.subscribe((newRsvps: MeetupRSVP[]) => this.meetupRsvps = newRsvps);
+  }
+
+  ngOnDestroy() {
+    this.meetupProvider.meetupRsvps$.unsubscribe();
   }
 
 }

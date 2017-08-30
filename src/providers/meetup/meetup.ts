@@ -27,6 +27,7 @@ export class MeetupProvider {
     const apiUrl = `api/rsvps?event_id=${this.config.eventId}&key=${this.config.apiKey}&rsvp=yes&sign=true`;
 
     this.http.get(apiUrl)
+        .map(res => res.json().results)
         .subscribe(console.log);
   }
 }

@@ -6,9 +6,14 @@ import { NavController } from "ionic-angular";
   templateUrl: "settings.html"
 })
 export class SettingsPage {
+  public model = {eventId: "", apiKey: ""};
 
   constructor(public navCtrl: NavController) {
 
+  }
+
+  saveSettings() {
+    console.log("Settings saved", this.model);
   }
 
 }

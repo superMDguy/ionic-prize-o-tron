@@ -7,6 +7,10 @@
 <ion-content padding>
   <ion-list>
     <ion-list-header>
+      <ion-badge item-start>
+        {{ meetupRsvps?.length || '0' }}
+      </ion-badge>
+
       Users who RSVPed
     </ion-list-header>
 

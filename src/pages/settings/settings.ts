@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { NavController } from "ionic-angular";
+import { MeetupProvider } from "../../providers/meetup/meetup";
 
 @Component({
   selector: "page-settings",
@@ -8,12 +9,12 @@ import { NavController } from "ionic-angular";
 export class SettingsPage {
   public model = {eventId: "", apiKey: ""};
 
-  constructor(public navCtrl: NavController) {
-
+  constructor(public navCtrl: NavController,
+              private meetupProvider: MeetupProvider) {
   }
 
   saveSettings() {
-    console.log("Settings saved", this.model);
+    this.meetupProvider.updateConfig(this.model);
   }
 
 }

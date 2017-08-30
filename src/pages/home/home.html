@@ -5,6 +5,37 @@
 </ion-header>
 
 <ion-content padding>
+  <ion-card>
+    <ion-card-header>
+      Potential winners
+      <ion-badge>
+        {{ potentialWinners?.length || '0' }}
+      </ion-badge>
+    </ion-card-header>
+  </ion-card>
+
+  <button (click)="selectWinner()"
+          [disabled]="!potentialWinners?.length"
+          ion-button
+          block>
+    Select a winner
+  </button>
+
+  <ion-list>
+    <ion-list-header>
+      Winners
+    </ion-list-header>
+
+    <ion-card *ngFor="let winner of winners.reverse()">
+      <img [src]="winner.photoUrl">
+      <ion-card-content>
+        <ion-card-title>
+          {{ winner.name }}
+        </ion-card-title>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
   <ion-list>
     <ion-list-header>
       <ion-badge item-start>
@@ -27,6 +58,7 @@
         </ion-label>
 
         <ion-checkbox [(ngModel)]="rsvp.included"
+                      (ngModelChange)="updatePotentialWinners()"
                       item-end>
         </ion-checkbox>
 

@@ -27,6 +27,7 @@
         </ion-label>
 
         <ion-checkbox [(ngModel)]="rsvp.included"
+                      (ngModelChange)="updatePotentialWinners()"
                       item-end>
         </ion-checkbox>
 
